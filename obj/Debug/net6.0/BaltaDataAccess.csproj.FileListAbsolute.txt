@@ -1,0 +1,15 @@
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\bin\Debug\net6.0\BaltaDataAccess.exe
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\bin\Debug\net6.0\BaltaDataAccess.deps.json
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\bin\Debug\net6.0\BaltaDataAccess.runtimeconfig.json
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\bin\Debug\net6.0\BaltaDataAccess.dll
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\bin\Debug\net6.0\ref\BaltaDataAccess.dll
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\bin\Debug\net6.0\BaltaDataAccess.pdb
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\obj\Debug\net6.0\BaltaDataAccess.csproj.AssemblyReference.cache
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\obj\Debug\net6.0\BaltaDataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\obj\Debug\net6.0\BaltaDataAccess.AssemblyInfoInputs.cache
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\obj\Debug\net6.0\BaltaDataAccess.AssemblyInfo.cs
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\obj\Debug\net6.0\BaltaDataAccess.csproj.CoreCompileInputs.cache
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\obj\Debug\net6.0\BaltaDataAccess.dll
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\obj\Debug\net6.0\ref\BaltaDataAccess.dll
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\obj\Debug\net6.0\BaltaDataAccess.pdb
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\obj\Debug\net6.0\BaltaDataAccess.genruntimeconfig.cache
