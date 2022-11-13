@@ -17,8 +17,9 @@ namespace baltaDataAccess
         //dotnet add package dapper
         static void Main(string[] args)
         {
-            DapperInsert();
-            Dapper();
+            //   DapperInsert();
+            // Dapper();
+            Conexao();
 
         }
 
@@ -30,6 +31,60 @@ namespace baltaDataAccess
                 var categories = con.Query<Category>("SELECT [Id], [Title] FROM [Category]");
                 foreach (var category in categories)
                     System.Console.WriteLine($"{category.Id}-{category.Title}");
+            }
+        }
+
+        static void SelectDapper(SqlConnection connection)
+        {
+            var query = "SELECT [Id], [Title] FROM [Category]";
+            var categories = connection.Query<Category>(query);
+            foreach (var category in categories)
+                System.Console.WriteLine($"{category.Id}-{category.Title}");
+        }
+        static void DapperUpdate(SqlConnection connection)
+        {
+
+            var updateSql = $"UPDATE [Category] SET [Title]=@title WHERE [Id]=@Id";
+            var rowns = connection.Execute(updateSql, new
+            {
+                id = new Guid("af3407aa-11ae-4621-a2ef-2028b85507c4"),
+                title = "FrontEnd 2023"
+            });
+
+        }
+
+        static void DapperInsert(SqlConnection connection)
+        {
+            Category category = new Category();
+            category.Id = Guid.NewGuid();
+            category.Title = "Amazon AWS 2";
+            category.Url = "amazon 5";
+            category.Description = "Categoria destinada a serviços do AWS";
+            category.Order = 8;
+            category.Summary = "AWS Could 2";
+            category.Featured = false;
+
+            var query = $"INSERT INTO [Category] values(" +
+                "@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
+            var rows = connection.Execute(query, new
+            {
+                category.Id,
+                category.Title,
+                category.Url,
+                category.Summary,
+                category.Description,
+                category.Order,
+                category.Featured
+            });
+            System.Console.WriteLine($"LINHAS INSERIDAS {rows}");
+        }
+        static void Conexao()
+        {
+            using (var con = new SqlConnection(connectionStirng))
+            {
+                DapperInsert(con);
+                DapperUpdate(con);
+                SelectDapper(con);
             }
         }
 
