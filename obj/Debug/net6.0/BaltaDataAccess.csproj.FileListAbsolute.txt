@@ -85,3 +85,4 @@ C:\Users\fchaves\Documents\acesso a dados ado net\acesso-a-dados-ado.net\obj\Deb
 C:\Users\fchaves\Documents\acesso a dados ado net\acesso-a-dados-ado.net\obj\Debug\net6.0\BaltaDataAccess.pdb
 C:\Users\fchaves\Documents\acesso a dados ado net\acesso-a-dados-ado.net\obj\Debug\net6.0\BaltaDataAccess.genruntimeconfig.cache
 C:\Users\fchaves\Documents\acesso a dados ado net\acesso-a-dados-ado.net\obj\Debug\net6.0\ref\BaltaDataAccess.dll
+C:\Users\faugu\OneDrive\Documentos\CURSO ACESSO A DADOS COM .NET\BaltaDataAccess\bin\Debug\net6.0\Dapper.dll
