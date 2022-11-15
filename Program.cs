@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using baltaDataAccess.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -130,9 +131,10 @@ namespace baltaDataAccess
             using (var con = new SqlConnection(connectionStirng))
             {
                 // DapperInsert(con);
-                DapperManyInsert(con);
+                // DapperManyInsert(con);
                 // DapperUpdate(con);
-                SelectDapper(con);
+                //SelectDapper(con);
+                ExecuteProcedure(con);
             }
         }
 
@@ -188,5 +190,17 @@ namespace baltaDataAccess
             }
         }
 
+        static void ExecuteProcedure(SqlConnection connection)
+        {
+
+            var sql = "[spDeleteStudent]";
+            var pars = new { StudentId = "93eeb410-69f3-40e4-955b-32a4f28dd7ec" };
+            var affectedRows = connection.Execute(sql,
+              pars,
+              commandType: CommandType.StoredProcedure);
+            System.Console.WriteLine($"linhas afetadas: {affectedRows}");
+        }
+
+        static void 
     }
 }
