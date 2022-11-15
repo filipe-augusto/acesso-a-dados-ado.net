@@ -128,17 +128,21 @@ namespace baltaDataAccess
 
         static void Conexao()
         {
+            //Console.Clear();
             using (var con = new SqlConnection(connectionStirng))
             {
                 // DapperInsert(con);
                 // DapperManyInsert(con);
                 // DapperUpdate(con);
                 //SelectDapper(con);
-                ExecuteProcedure(con);
+                //  ExecuteReadProcedure(con);
+                //ExecuteProcedure(con);
+                // ExecuteScalar(con);
+                ReadView(con);
             }
         }
 
-        static void DapperInsert()
+        static void DapperInsertOld()
         {
             Category category = new Category();
             category.Id = Guid.NewGuid();
@@ -201,6 +205,51 @@ namespace baltaDataAccess
             System.Console.WriteLine($"linhas afetadas: {affectedRows}");
         }
 
-        static void 
+        static void ExecuteReadProcedure(SqlConnection connection)
+        {
+            var procedure = "[spGetCoursesByCategory]";
+            var pars = new { CategoryId = "25d510c8-3108-44c2-86c5-924d9832aa8c" };
+            var courses = connection.Query<Category>(procedure, pars, commandType: CommandType.StoredProcedure);
+            foreach (var item in courses)
+            {
+                Console.WriteLine($"{item.Id} {item.Title}");
+            }
+        }
+
+        static void ExecuteScalar(SqlConnection connection)
+        {
+            Category category = new Category();
+
+            category.Title = "execute escalar AWS";
+            category.Url = "execute";
+            category.Description = "Categoria destinada a serviços do AWS";
+            category.Order = 8;
+            category.Summary = "execute  escalar";
+            category.Featured = false;
+
+            var insertSql = $"INSERT INTO [Category] OUTPUT inserted.[Id] values(" +
+                "NEWID(), @Title, @Url, @Summary, @Order, @Description, @Featured) " +
+                " SELECT SCOPE_IDENTITY()";
+
+            var id = connection.ExecuteScalar<Guid>(insertSql, new
+            {
+                category.Title,
+                category.Url,
+                category.Summary,
+                category.Description,
+                category.Order,
+                category.Featured
+            });
+            System.Console.WriteLine($"nova categoria inserida {id}");
+        }
+
+
+        static void ReadView(SqlConnection connection)
+        {
+            var sql = "SELECT * FROM [vwCourses]";
+            var courses = connection.Query(sql);
+            foreach (var item in courses)
+                System.Console.WriteLine($"{item.Tag}-{item.Title}");
+        }
     }
 }
