@@ -78,7 +78,6 @@ namespace baltaDataAccess
             });
             System.Console.WriteLine($"LINHAS INSERIDAS {rows}");
         }
-
         static void DapperManyInsert(SqlConnection connection)
         {
             Category category = new Category();
@@ -242,7 +241,6 @@ namespace baltaDataAccess
             });
             System.Console.WriteLine($"nova categoria inserida {id}");
         }
-
 
         static void ReadView(SqlConnection connection)
         {
