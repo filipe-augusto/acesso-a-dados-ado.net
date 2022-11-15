@@ -52,7 +52,6 @@ namespace baltaDataAccess
             });
 
         }
-
         static void DapperInsert(SqlConnection connection)
         {
             Category category = new Category();
@@ -78,12 +77,61 @@ namespace baltaDataAccess
             });
             System.Console.WriteLine($"LINHAS INSERIDAS {rows}");
         }
+
+        static void DapperManyInsert(SqlConnection connection)
+        {
+            Category category = new Category();
+            category.Id = Guid.NewGuid();
+            category.Title = "Amazon AWS 2";
+            category.Url = "amazon 5";
+            category.Description = "Categoria destinada a serviços do AWS";
+            category.Order = 8;
+            category.Summary = "AWS Could 2";
+            category.Featured = false;
+
+            Category category2 = new Category();
+            category2.Id = Guid.NewGuid();
+            category2.Title = "Categoria nova ";
+            category2.Url = "Categoria nova";
+            category2.Description = "Categoria destinada a serviços do AWS";
+            category2.Order = 9;
+            category2.Summary = "Categoria";
+            category2.Featured = true;
+
+            var query = $"INSERT INTO [Category] values(" +
+                "@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
+            var rows = connection.Execute(query, new[]
+             {
+                new {
+                category.Id,
+                category.Title,
+                category.Url,
+                category.Summary,
+                category.Description,
+                category.Order,
+                category.Featured
+            },
+         new {
+                category2.Id,
+                category2.Title,
+                category2.Url,
+                category2.Summary,
+                category2.Description,
+                category2.Order,
+                category2.Featured
+            }
+             }
+            );
+            System.Console.WriteLine($"LINHAS INSERIDAS {rows}");
+        }
+
         static void Conexao()
         {
             using (var con = new SqlConnection(connectionStirng))
             {
-                DapperInsert(con);
-                DapperUpdate(con);
+                // DapperInsert(con);
+                DapperManyInsert(con);
+                // DapperUpdate(con);
                 SelectDapper(con);
             }
         }
