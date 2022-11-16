@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Collections.Generic;
 using baltaDataAccess.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -134,10 +135,17 @@ namespace baltaDataAccess
                 // DapperManyInsert(con);
                 // DapperUpdate(con);
                 //SelectDapper(con);
-                //  ExecuteReadProcedure(con);
+                // ExecuteReadProcedure(con);
                 //ExecuteProcedure(con);
                 // ExecuteScalar(con);
-                ReadView(con);
+                // ReadView(con);
+                Console.Clear();
+                //OneToOne(con);
+                //OneToMany(con);
+                // QueryMultiple(con);
+                // SelectIn(con);
+                Transaction(con);
+                Like(con);
             }
         }
 
@@ -249,5 +257,151 @@ namespace baltaDataAccess
             foreach (var item in courses)
                 System.Console.WriteLine($"{item.Tag}-{item.Title}");
         }
+
+        static void OneToOne(SqlConnection connection)
+        {
+            var sql = @"SELECT * FROM [CareerItem] INNER JOIN [Course] " +
+            @" ON [CareerItem].[CourseId]  = [Course].[Id]";
+
+            var items = connection.Query<CareerItem, Course, CareerItem>(
+                sql,
+                (careerItem, course) =>
+                {
+                    careerItem.Course = course;
+                    return careerItem;
+                },
+                splitOn: "Id"
+                );
+            foreach (var item in items)
+            {
+                System.Console.WriteLine($" item: {item.Title}  Curso: {item.Course.Title}");
+            }
+        }
+
+        static void OneToMany(SqlConnection connection)
+        {
+            var sql = "SELECT [Career].[Id],[Career].[Title],[CareerItem].[CareerId]," +
+            "[CareerItem].[Title] FROM [Career]  INNER JOIN [CareerItem] " +
+            "ON [CareerItem].[CareerId] = [Career].[Id] ORDER BY [Career].[Title]";
+            var careers = new List<Career>();
+            var items = connection.Query<Career, CareerItem, Career>(
+                sql,
+                (career, item) =>
+                {
+                    var car = careers.Where(x => x.Id == career.Id).FirstOrDefault();
+                    if (car == null)
+                    {
+                        car = career;
+                        car.Items.Add(item);
+                        careers.Add(car);
+                    }
+                    else
+                    {
+                        car.Items.Add(item);
+                    }
+
+                    career.Items.Add(item);
+                    return career;
+                },
+                splitOn: "CareerId"
+            );
+
+            foreach (var career in careers)
+            {
+                System.Console.WriteLine($"{career.Title}");
+                foreach (var item in career.Items)
+                {
+                    System.Console.WriteLine($"     {item.Title}");
+                }
+
+            }
+
+        }
+
+        static void QueryMultiple(SqlConnection connection)
+        {
+            var query = "SELECT * FROM [Category]; SELECT * FROM [Course]";
+            using (var multi = connection.QueryMultiple(query))
+            {
+                var categories = multi.Read<Category>();
+                var courses = multi.Read<Course>();
+
+                foreach (var item in categories)
+                {
+                    Console.WriteLine(item.Title);
+                }
+                foreach (var item in courses)
+                {
+                    System.Console.WriteLine("-" + item.Title);
+                }
+            }
+        }
+
+        static void SelectIn(SqlConnection connection)
+        {
+            /*  var query = "SELECT * from [Category] where id in " +
+              "('fbb13482-2c41-40dd-99d6-1e7370a73466','af3407aa-11ae-4621-a2ef-2028b85507c4')"; */
+            var query = "SELECT * from [Category] where [Id] in @Id";
+            var careers = connection.Query<Career>(query, new
+            {
+                id = new[]{
+                    "fbb13482-2c41-40dd-99d6-1e7370a73466",
+                    "af3407aa-11ae-4621-a2ef-2028b85507c4"
+                }
+            });
+            foreach (var item in careers)
+            {
+                System.Console.WriteLine($" carrer {item.Title}");
+            }
+        }
+
+        static void Like(SqlConnection connection)
+        {
+            var term = "api";
+            var query = "SELECT * FROM [Course] WHERE [Title] LIKE @exp";
+            var courses = connection.Query<Course>(query, new
+            {
+                exp = $"%{term}%"
+            });
+            foreach (var item in courses)
+            {
+                System.Console.WriteLine($" course {item.Title}");
+            }
+        }
+
+        static void Transaction(SqlConnection connection)
+        {
+            Category category = new Category();
+            category.Id = Guid.NewGuid();
+            category.Title = "NAO QUERO";
+            category.Url = "NAO QUERO";
+            category.Description = "NAO QUERO";
+            category.Order = 8;
+            category.Summary = "ANAO QUERO";
+            category.Featured = false;
+
+            var query = $"INSERT INTO [Category] values(" +
+                "@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
+
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                var rows = connection.Execute(query, new
+                {
+                    category.Id,
+                    category.Title,
+                    category.Url,
+                    category.Summary,
+                    category.Description,
+                    category.Order,
+                    category.Featured
+                }, transaction);
+                transaction.Commit();
+                System.Console.WriteLine($"LINHAS INSERIDAS {rows}");
+                transaction.Rollback();
+            }
+
+        }
+
     }
 }
