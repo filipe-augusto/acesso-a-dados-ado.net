@@ -138,8 +138,8 @@ namespace baltaDataAccess
                 // ExecuteReadProcedure(con);
                 //ExecuteProcedure(con);
                 // ExecuteScalar(con);
-                // ReadView(con);
-                Console.Clear();
+                ReadView(con);
+                //     Console.Clear();
                 //OneToOne(con);
                 //OneToMany(con);
                 // QueryMultiple(con);
